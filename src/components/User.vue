@@ -10,24 +10,8 @@
     <form class="form-control">
         <input type="number" v-model="userCode" placeholder="First Name" />
     </form>
-    <div class="profile">
-        <img :src="userData.avatar" alt="Profile" />
-        <strong> {{ formatUserName }}</strong>
-        <span>{{ userData.email}}</span>
-    </div>
 
-    <div class="profile">
-        <div class="container-user">
-            <div class="box-user" v-for="users in usersCollected" :key="users.id">
-                <h4 style="color:blue" v-if="users.first_name === 'Emma'"> High diff!!!</h4>
-                <h4 v-else > No diff!</h4>
-                <img :src="users.avatar" alt="Profile" />
-                <strong> {{ users.first_name + ' ' + users.last_name }}</strong>
-                <span v-email="users.email"></span>
-            </div>
-        </div>
-        
-    </div>
+    <CardUser :userData="userData"/>
 
 </template>
 
@@ -39,7 +23,10 @@
             watch,
             watchEffect
      } from 'vue';
+
+     import CardUser from './CardUser.vue';
     /*
+
     const name = ref("guapo abism");
     const bornDate = ref(2004);
     console.log(name.value) 
@@ -53,34 +40,11 @@
     
     const userData = ref({})
     const userCode = ref(1);
-    const usersCollected = ref([]);
-
+    
     const getUserData = async (userId) => {
         const req = await fetch(`https://reqres.in/api/users/${userId}`);
         const res = await req.json();
         return res.data;
-    }
-
-    const getUsersPerPage = async (page) => {
-        const req = await fetch(`https://reqres.in/api/users?page=${page}`);
-        const res = await req.json();
-        return res.data;
-    }
-
-    const addUsersCollected = async () => {
-        usersCollected.value = await getUsersPerPage(1);
-        //console.log(usersCollected.value);
-    }
-
-    //directive use to create global 
-
-    const vEmail = {
-        created(element, binding, vnode){
-            element.style.color = 'gray';
-            // console.log(element.innerText);
-            element.innerHTML = `<a href="${binding.value}">${binding.value} <a/> `
-            
-        }
     }
 
  /*   const searchUser = async () =>{
@@ -102,8 +66,6 @@
 */
     //const validateUserCode = computed( () => userCode.value <=0 ) ;
 
-    const formatUserName = computed( () => userData.value.first_name + ' ' + userData.value.last_name);
-
     /* watch(userCode , (newValue, oldValue) => {
         console.log(newValue, oldValue);
         if(newValue <= 0){
@@ -112,10 +74,6 @@
         }
     });
     */
-
-    onMounted( async () => {
-        addUsersCollected();
-    });
 
     watchEffect( async () => {
       if(userCode.value <= 0){
@@ -151,31 +109,6 @@
 
     button disabled {
         cursor:default;
-    }
-
-
-    .profile{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 200px;
-        margin: 20px auto;
-    }
-
-    .container-user{
-        display: flex;
-        width: 1200px;
-        flex-direction: wrap;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .box-user{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 200px;
-        margin: 20px auto;
     }
 
 </style>
