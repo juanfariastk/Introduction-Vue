@@ -11,7 +11,9 @@
         <input type="number" v-model="userCode" placeholder="First Name" />
     </form>
 
-    <CardUser :userData="userData"/>
+    <div v-if="userObj">
+        <CardUser :userData="userObj"/>
+    </div>
 
 </template>
 
@@ -23,8 +25,10 @@
      } from 'vue';
 
      import CardUser from './CardUser.vue';
-    /*
+     import { useFetch } from '@/composables/fetch';
 
+
+    /*
     const name = ref("guapo abism");
     const bornDate = ref(2004);
     console.log(name.value) 
@@ -35,16 +39,10 @@
         return userData.yearsOld = 2024 - userData.bornDate;
     }*/
 
-    
-    const userData = ref({})
     const userCode = ref(1);
-    
-    const getUserData = async (userId) => {
-        const req = await fetch(`https://reqres.in/api/users/${userId}`);
-        const res = await req.json();
-        console.log(res.data);
-        return res.data;
-    }
+    const apiUrl = ref(`https://reqres.in/api/users/${userCode.value}`);
+    const { data: userObj, error, loading } = useFetch( apiUrl.value );
+
 
  /*   const searchUser = async () =>{
         userData.value = await getUserData(userCode.value)
@@ -75,14 +73,16 @@
     */
 
     const alertMessage = inject('winAlert');
-    console.log(alertMessage)
+    console.log(alertMessage);
+
     watchEffect( async () => {
       if(userCode.value <= 0){
           alert(alertMessage);
           userCode.value = 1;
       }
-
-      userData.value = await getUserData(userCode.value)
+      const {data, error, loading} = useFetch( `https://reqres.in/api/users/${userCode.value}`);
+      console.log(data)
+      console.log(userCode.value);
     });
 
 </script>

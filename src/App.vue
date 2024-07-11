@@ -4,7 +4,6 @@
         <Header />
     </header>
     <main>
-        
         <ListUsers/>
     </main>
 </template>
