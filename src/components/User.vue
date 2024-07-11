@@ -19,9 +19,7 @@
 
     import { ref, reactive, onMounted, onBeforeMount,
             onBeforeUpdate, onUpdated, onBeforeUnmount, 
-            onUnmounted,computed,
-            watch,
-            watchEffect
+            onUnmounted, computed, watch, watchEffect, inject
      } from 'vue';
 
      import CardUser from './CardUser.vue';
@@ -44,6 +42,7 @@
     const getUserData = async (userId) => {
         const req = await fetch(`https://reqres.in/api/users/${userId}`);
         const res = await req.json();
+        console.log(res.data);
         return res.data;
     }
 
@@ -75,9 +74,11 @@
     });
     */
 
+    const alertMessage = inject('winAlert');
+    console.log(alertMessage)
     watchEffect( async () => {
       if(userCode.value <= 0){
-          alert('Codigo Invalido');
+          alert(alertMessage);
           userCode.value = 1;
       }
 
@@ -95,20 +96,6 @@
     }
     form input{
         width: 100%;
-    }
-
-    button{
-        margin: 0px auto 20px auto;
-        padding: 5px;
-        display: block;
-        background: darkcyan;
-        border-radius: 5px;
-        border-style: none;
-        cursor: pointer;
-    }
-
-    button disabled {
-        cursor:default;
     }
 
 </style>

@@ -4,7 +4,7 @@
             <div class="box-user" v-for="user in usersCollected" :key="user.id">
                 <h4 v-if="user.id === 3">Guapo abism!</h4>
                 <h4 v-else>no guapo!</h4>
-                <CardUser :userData="user" />
+                <CardUser :userData="user" @showProfile="addUserSelected" />
             </div>
         </div>
         
@@ -13,11 +13,12 @@
 
 <script setup>
 
-    import {onMounted, ref} from 'vue';
+    import {onMounted, ref, provide} from 'vue';
     import CardUser from './CardUser.vue';
 
     const usersCollected = ref([]);
-
+    const usersSelected = ref([]);
+    
     const getUsersPerPage = async (page) => {
         const req = await fetch(`https://reqres.in/api/users?page=${page}`);
         const res = await req.json();
@@ -29,16 +30,11 @@
         //console.log(usersCollected.value);
     }
 
-    //directive use to create global 
-
-    const vEmail = {
-        created(element, binding, vnode){
-            element.style.color = 'gray';
-            // console.log(element.innerText);
-            element.innerHTML = `<a href="${binding.value}">${binding.value} <a/> `
-            
-        }
+    const addUserSelected = (e) => {
+        usersSelected.value.push(e);
+        console.log(usersSelected.value);
     }
+
 
     onMounted( async () =>{
         await addUsersCollected();

@@ -1,5 +1,5 @@
 <script setup>
-const nome = 'Amor';
+const nome = 'Gap';
 </script>
 
 <template>

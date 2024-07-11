@@ -4,7 +4,7 @@
         <Header />
     </header>
     <main>
-        <User/>
+        
         <ListUsers/>
     </main>
 </template>
@@ -14,6 +14,13 @@ import Header from './components/Header.vue';
 import User from './components/User.vue';
 import NavBar from './components/NavBar.vue';
 import ListUsers from './components/ListUsers.vue';
+
+import { provide } from 'vue';
+
+// provide test used in User.vue
+const messageWin = "Um erro ocorreu!";
+provide('winAlert', messageWin);
+
 </script>
 
 <style>
@@ -44,6 +51,20 @@ import ListUsers from './components/ListUsers.vue';
     align-items: center;
     width: 200px;
     margin: 20px auto;
+}
+
+button{
+    margin: 10px auto 20px auto;
+    padding: 5px;
+    display: block;
+    background: darkcyan;
+    border-radius: 5px;
+    border-style: none;
+    cursor: pointer;
+}
+
+button disabled {
+    cursor:default;
 }
 
 </style>
